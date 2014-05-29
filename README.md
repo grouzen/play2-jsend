@@ -11,7 +11,7 @@ Add dependency declarations into your build.sbt or Build.scala file:
 
 * ___build.sbt___
 
-    "me.mnedokushev" %% "play2-jsend" % "1.0-SNAPSHOT"
+        "me.mnedokushev" %% "play2-jsend" % "1.0-SNAPSHOT"
 
 * ___Build.scala___
 
