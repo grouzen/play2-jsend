@@ -11,15 +11,15 @@ object JSend {
                      xs 
                        .map { o => Json.obj(o._1 -> o._2) } 
                        .foldLeft(Json.obj()) { 
-                        (a, b) => 
-                          def mkJson(o: JsObject): JsObject = {
-                            o.keys.headOption match {
-                              case Some(k) => Json.obj(k -> Json.toJson(o.values.head))
-                              case None    => Json.obj()
+                          (a, b) => 
+                            def mkJson(o: JsObject): JsObject = {
+                              o.keys.headOption match {
+                                case Some(k) => Json.obj(k -> Json.toJson(o.values.head))
+                                case None    => Json.obj()
+                              }
                             }
-                          }
           
-                          mkJson(a) ++ mkJson(b)
+                            mkJson(a) ++ mkJson(b)
                         }
                  )
     })  

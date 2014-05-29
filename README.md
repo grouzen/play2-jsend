@@ -16,7 +16,7 @@ Add dependency declarations into your build.sbt or Build.scala file:
 * ___Build.scala___
 
 ```scala
-  val appDependecies = Seq(
+  val appDependencies = Seq(
     "me.mnedokusev" %% "play2-jsend" % "1.0-SNAPSHOT"
   )
 ```
@@ -24,7 +24,7 @@ Add dependency declarations into your build.sbt or Build.scala file:
 Usage
 -------------------------
 
-Instead of using Json.toJson you should use JSend.success/fail/error static methods. 
+Instead of using Json.toJson, use JSend.success/fail/error static methods. 
 
 ```scala
 
