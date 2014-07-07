@@ -17,7 +17,7 @@ Add dependency declarations into your build.sbt or Build.scala file:
 
 ```scala
   val appDependencies = Seq(
-    "me.mnedokusev" %% "play2-jsend" % "1.0-SNAPSHOT"
+    "me.mnedokushev" %% "play2-jsend" % "1.0-SNAPSHOT"
   )
 ```
 
