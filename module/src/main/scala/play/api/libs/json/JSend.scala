@@ -1,27 +1,22 @@
 package play.api.libs.json
 
+import play.api.Logger
+
 object JSend {
 
   private def wrap[T](status: String, objs: Option[Seq[(String, T)]] = None)(implicit tjs: Writes[T]): JsObject = {
     Json.obj("status" -> status) ++
       (objs match {
         case None => Json.obj()
-        case Some(Seq(xs@_*)) =>
+        case Some(Seq(xs@_*)) => {
           Json.obj("data" -> 
                      xs 
                        .map { o => Json.obj(o._1 -> o._2) } 
                        .foldLeft(Json.obj()) { 
-                          (a, b) => 
-                            def mkJson(o: JsObject): JsObject = {
-                              o.keys.headOption match {
-                                case Some(k) => Json.obj(k -> Json.toJson(o.values.head))
-                                case None    => Json.obj()
-                              }
-                            }
-          
-                            mkJson(a) ++ mkJson(b)
+                          (a, b) => a ++ Json.obj(b.keys.head -> Json.toJson(b.values.head))
                         }
                  )
+        }
     })  
   }
 
