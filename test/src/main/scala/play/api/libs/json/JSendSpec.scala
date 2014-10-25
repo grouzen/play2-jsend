@@ -57,11 +57,11 @@ class JSendSpec extends Specification {
     }
     
     // FIX: doesn't work without objs=Some(_)
-    // "contain no data" in {
-    //   val json = JSend.error(message="test message")
+    "contain no data" in {
+      val json = JSend.error(message="test message")
 
-    //   (json \ "data").asOpt[JsObject] must beNone
-    // }
+      (json \ "data").asOpt[JsObject] must beNone
+    }
   }
 
 }
