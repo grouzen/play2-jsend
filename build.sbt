@@ -4,10 +4,13 @@ organization := "me.mnedokushev"
 
 version := "1.0-SNAPSHOT"
 
-libraryDependencies ++= Seq(
-  cache
-)     
+lazy val root = (project in file(".")).enablePlugins(PlayScala)
 
-play.Project.playScalaSettings
+scalaVersion := "2.11.8"
+
+libraryDependencies ++= Seq(
+  cache,
+  specs2 % Test
+)     
 
 scalaSource in Compile := baseDirectory.value / "module"
