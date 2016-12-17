@@ -4,34 +4,36 @@ import play.api.Logger
 
 object JSend {
 
-  private def wrap[T](status: String, objs: Option[Seq[(String, T)]] = None)(implicit tjs: Writes[T]): JsObject = {
-    Json.obj("status" -> status) ++
-      (objs match {
-        case None => Json.obj()
-        case Some(Seq(xs@_*)) => {
-          Json.obj("data" -> 
-                     xs 
-                       .map { o => Json.obj(o._1 -> o._2) } 
-                       .foldLeft(Json.obj()) { 
-                          (a, b) => a ++ Json.obj(b.keys.head -> Json.toJson(b.values.head))
-                        }
-                 )
-        }
-    })  
-  }
+  private def statusToJson(status: String): JsObject =
+    Json.obj("status" -> status)
 
-  def success[T](objs: (String, T)*)(implicit tjs: Writes[T]): JsValue = 
-    wrap(status="success", objs=Some(objs))
-    
-  def fail[T](objs: (String, T)*)(implicit tjs: Writes[T]): JsValue =
-    wrap(status="fail", objs=Some(objs))
-  
-  def error[T](message: String, code: Option[Int] = None, objs: Option[Seq[(String, T)]] = None)(implicit tjs: Writes[T]): JsValue =
-    Json.obj("message" -> message) ++ 
-      wrap(status="error", objs=objs) ++
-      (code match {
-        case Some(c) => Json.obj("code" -> c)
-        case None    => Json.obj()
+  private def seqToJson[T](objs: Seq[(String, T)])(implicit tjs: Writes[T]): JsObject =
+    Json.obj("data" ->
+      objs
+      .map { o => Json.obj(o._1 -> o._2) }
+      .foldLeft(Json.obj()) {
+        (a, b) => a ++ Json.obj(b.keys.head -> Json.toJson(b.values.head))
       })
+
+  private def errorAux(message: String): JsObject =
+    statusToJson("error") ++ Json.obj("message" -> message)
+
+  def success[T](objs: (String, T)*)(implicit tjs: Writes[T]): JsValue =
+    statusToJson("success") ++ seqToJson(objs)
+
+  def fail[T](objs: (String, T)*)(implicit tjs: Writes[T]): JsValue =
+    statusToJson("fail") ++ seqToJson(objs)
+
+  def error(message: String): JsValue =
+    errorAux(message)
+
+  def error(message: String, code: Int): JsValue =
+    errorAux(message) ++ Json.obj("code" -> code)
+
+  def error[T](message: String, objs: (String, T)*)(implicit tjs: Writes[T]): JsValue =
+    errorAux(message) ++ seqToJson(objs)
+
+  def error[T](message: String, code: Int, objs: (String, T)*)(implicit tjs: Writes[T]): JsValue =
+    errorAux(message) ++ Json.obj("code" -> code) ++ seqToJson(objs)
 
 }
