@@ -9,9 +9,7 @@ You can find the full specification at [OmniTI Labs Wiki](http://labs.omniti.com
 Installation
 -------------------------
 
-1. Download this repo and publish play2-jsend into your local repository. If you are using [Lightbend Activator](https://www.lightbend.com/community/core-tools/activator-and-sbt) you can just run `activator publish-local`.
-
-2. Add dependency declarations into your build.sbt or Build.scala files:
+play2-jsend is [published in Maven Central](http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22play2-jsend_2.11%22). To use it you just need to add a dependency declaration into your build.sbt or Build.scala:
 
 __build.sbt__
 
